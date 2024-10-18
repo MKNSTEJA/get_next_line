@@ -1,0 +1,4 @@
+Short line
+This is a much longer line that exceeds the buffer size and continues on and on without ending quickly.
+Short again
+And another long one that is supposed to test how your function handles different line lengths.

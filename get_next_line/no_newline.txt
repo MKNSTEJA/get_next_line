@@ -1,0 +1,1 @@
+This is the only line in the file without a newline at the end
