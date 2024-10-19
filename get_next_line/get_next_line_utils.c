@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mknsteja <mknsteja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kmummadi <kmummadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:04:45 by mknsteja          #+#    #+#             */
-/*   Updated: 2024/10/18 11:36:34 by mknsteja         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:51:17 by kmummadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strdup(const char *src)
 	int		i;
 
 	if (!src)
-		return (ft_strdup(""));
+	return (NULL);
 	new_string = malloc(sizeof(char) * ft_strlen(src) + 1);
 	if (new_string == NULL)
 		return (NULL);
@@ -99,7 +99,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	j = 0;
 	if (!s1 && !s2)
-		return (ft_strdup(""));
+		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
 	else if (!s2)
