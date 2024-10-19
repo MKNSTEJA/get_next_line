@@ -6,63 +6,83 @@
 /*   By: mknsteja <mknsteja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 19:26:19 by mknsteja          #+#    #+#             */
-/*   Updated: 2024/10/18 09:10:26 by mknsteja         ###   ########.fr       */
+/*   Updated: 2024/10/19 04:17:27 by mknsteja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*free_normal(char **str);
 char	*result(char *buffer_str, char **rem, char *finder);
+void	assign_rem(char **rem, char *buffer_str, int bytes_read);
 char	*free_all(char **buffer_str, char **rem);
-char	*free_final(char **rem, char *buffer_str);
+char	*free_final(char **rem, char *buffer_str, int bytes_read);
 
 char	*get_next_line(int fd)
 {
 	static char	*rem = NULL;
 	char		*buffer_str;
 	char		*finder;
-	char		*temp;
 	int			bytes_read;
 
+	finder = NULL;
 	buffer_str = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer_str)
+	if (!buffer_str || fd < 0 || BUFFER_SIZE <= 0)
 		return (free_all(&buffer_str, &rem));
-	while ((bytes_read = read(fd, buffer_str, BUFFER_SIZE)) > 0)
+	if (rem)
+		finder = ft_strchr(rem, '\n');
+	if (finder)
+		return (result(buffer_str, &rem, finder));
+	bytes_read = read(fd, buffer_str, BUFFER_SIZE);
+	while (bytes_read > 0)
 	{
-		buffer_str[bytes_read] = '\0';
-		temp = rem;
-		rem = ft_strjoin(rem, buffer_str);
-		if (temp)
-			free(temp);
+		assign_rem(&rem, buffer_str, bytes_read);
 		if (!rem)
 			return (free_all(&buffer_str, &rem));
 		finder = ft_strchr(rem, '\n');
 		if (finder)
 			return (result(buffer_str, &rem, finder));
+		bytes_read = read(fd, buffer_str, BUFFER_SIZE);
 	}
-	return (free_final(&rem, buffer_str));
+	return (free_final(&rem, buffer_str, bytes_read));
 }
 
-char	*free_final(char **rem, char *buffer_str)
+char	*free_final(char **rem, char *buffer_str, int bytes_read)
 {
 	char	*result;
 
+	free(buffer_str);
+	buffer_str = NULL;
+	if (bytes_read == -1)
+	{
+		free(*rem);
+		*rem = NULL;
+		return (NULL);
+	}
 	result = NULL;
-	free_normal(&buffer_str);
-	if (rem && *rem)
+	if (rem && *rem && (**rem != '\0'))
 	{
 		result = ft_strdup(*rem);
-		free_normal(rem);
+		free(*rem);
+		*rem = NULL;
 		return (result);
 	}
+	free(*rem);
+	*rem = NULL;
 	return (NULL);
 }
 
 char	*free_all(char **buffer_str, char **rem)
 {
-	(void)free_normal(buffer_str);
-	(void)free_normal(rem);
+	if (buffer_str && *buffer_str)
+	{
+		free(*buffer_str);
+		*buffer_str = NULL;
+	}
+	if (rem && *rem)
+	{
+		free(*rem);
+		*rem = NULL;
+	}
 	return (NULL);
 }
 
@@ -74,17 +94,36 @@ char	*result(char *buffer_str, char **rem, char *finder)
 	result = ft_substr(*rem, 0, finder - *rem + 1);
 	temp_rem = *rem;
 	*rem = ft_strdup(finder + 1);
+	// if (*rem)
+	// {
+	// 	free(temp_rem);
+	// 	temp_rem = NULL;
+	// 	return (free_all(&buffer_str, rem));
+	// }
+	if (**rem == '\0')
+	{
+		free(*rem);
+		*rem = NULL;
+	}
 	free(temp_rem);
-	free_normal(&buffer_str);
+	free(buffer_str);
+	buffer_str = NULL;
 	return (result);
 }
 
-char	*free_normal(char **str)
+void	assign_rem(char **rem, char *buffer_str, int bytes_read)
 {
-	if (str && *str)
+	char	*temp;
+
+	buffer_str[bytes_read] = '\0';
+	temp = *rem;
+	*rem = ft_strjoin(*rem, buffer_str);
+	if (!*rem)
 	{
-		free(*str);
-		*str = NULL;
+		if (temp)
+			free(temp);
+		return ;
 	}
-	return (NULL);
+	if (temp)
+		free(temp);
 }

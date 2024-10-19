@@ -6,7 +6,7 @@
 /*   By: mknsteja <mknsteja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:04:45 by mknsteja          #+#    #+#             */
-/*   Updated: 2024/10/18 09:04:45 by mknsteja         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:36:34 by mknsteja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_strlen(const char *string)
 {
 	int	length;
 
+	if (!string)
+		return (0);
 	length = 0;
 	while (string[length])
 	{
@@ -29,6 +31,8 @@ char	*ft_strdup(const char *src)
 	char	*new_string;
 	int		i;
 
+	if (!src)
+		return (ft_strdup(""));
 	new_string = malloc(sizeof(char) * ft_strlen(src) + 1);
 	if (new_string == NULL)
 		return (NULL);
@@ -41,10 +45,13 @@ char	*ft_strdup(const char *src)
 	new_string[i] = '\0';
 	return (new_string);
 }
+
 char	*ft_strchr(const char *string, int character)
 {
 	char	*str;
 
+	if (!string)
+		return (NULL);
 	str = (char *)string;
 	while (*str)
 	{
@@ -63,6 +70,8 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	size_t	i;
 	size_t	s_len;
 
+	if (!s)
+		return (NULL);
 	s_len = ft_strlen(s);
 	if (start >= s_len)
 		return (ft_strdup(""));
@@ -89,6 +98,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
+	if (!s1 && !s2)
+		return (ft_strdup(""));
 	if (!s1)
 		return (ft_strdup(s2));
 	else if (!s2)
