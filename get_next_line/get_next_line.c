@@ -6,7 +6,7 @@
 /*   By: kmummadi <kmummadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 19:26:19 by mknsteja          #+#    #+#             */
-/*   Updated: 2024/10/19 13:01:44 by kmummadi         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:24:52 by kmummadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ char	*result(char *buffer_str, char **rem, char *finder)
 	result = ft_substr(*rem, 0, finder - *rem + 1);
 	temp_rem = *rem;
 	*rem = ft_strdup(finder + 1);
-	// if (*rem)
-	// {
-	// 	free(temp_rem);
-	// 	temp_rem = NULL;
-	// 	return (free_all(&buffer_str, rem));
-	// }
+	if (!*rem || !result)
+	{
+		free(temp_rem);
+		free(result);
+		return (free_all(&buffer_str, rem));
+	}
 	if (**rem == '\0')
 	{
 		free(*rem);

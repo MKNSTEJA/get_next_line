@@ -6,7 +6,7 @@
 /*   By: kmummadi <kmummadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:04:45 by mknsteja          #+#    #+#             */
-/*   Updated: 2024/10/19 14:51:17 by kmummadi         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:02:46 by kmummadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strdup(const char *src)
 	int		i;
 
 	if (!src)
-	return (NULL);
+		return (NULL);
 	new_string = malloc(sizeof(char) * ft_strlen(src) + 1);
 	if (new_string == NULL)
 		return (NULL);
