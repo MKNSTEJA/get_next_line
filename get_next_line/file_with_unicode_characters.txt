@@ -1,2 +1,0 @@
-This is a line with Unicode characters: Привет, 你好, مرحبا
-Here's another line with emojis: 😊🚀🌍

@@ -1,2 +1,0 @@
-This line contains non-printable characters: 
-Another regular line.
